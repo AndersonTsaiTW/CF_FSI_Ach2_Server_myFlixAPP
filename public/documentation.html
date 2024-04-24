@@ -42,11 +42,10 @@
         <td>/Genre/[GenreName]</td>
         <td>GET</td>
         <td>None</td>
-        <td>A JSON object holding data about a spcific genre, including name, description, and some example movies. Example: <br><br>
+        <td>A JSON object holding data about a spcific genre, including name and description. Example: <br><br>
           {
             "name": "Action",<br>
-            "description": "Should contain numerous scenes where action is spectacular and usually destructive. Often includes non-stop motion, high energy physical stunts, chases, battles, and destructive crises (floods, explosions, natural disasters, fires, etc.) Note: if a movie contains just one action scene (even if prolonged, i.e. airplane-accident) it does not qualify. Subjective.",<br>
-            "examples": "Die Hard (1988) |The Avengers (2012) | Wonder Woman (2019)"
+            "description": "Should contain numerous scenes where action is spectacular and usually destructive. Often includes non-stop motion, high energy physical stunts, chases, battles, and destructive crises (floods, explosions, natural disasters, fires, etc.) Note: if a movie contains just one action scene (even if prolonged, i.e. airplane-accident) it does not qualify. Subjective."<br>
           }
         </td>
       </tr>
@@ -57,10 +56,10 @@
         <td>None</td>
         <td>A JSON object holding data about a spcific director, including name, birth, death, and bio. Example: <br><br>
           {
-            "name": "Fred Astaire",<br>
-            "birth": "1899",<br>
-            "death": "1987",<br>
-            "bio": "actor,miscellaneous,producer"<br>
+            "name": "Francis Ford Coppola",<br>
+            "birth": "1939",<br>
+            "death": null,<br>
+            "bio": "Francis Ford Coppola is an American film director, producer, and screenwriter. He was a central figure in the New Hollywood filmmaking movement of the 1960s and 1970s."<br>
           },
         </td>
       </tr>
@@ -70,16 +69,16 @@
         <td>POST</td>
         <td>A JSON object holding data about new user to add, structured like:<br><br>
           {
-            "name": "Alex",<br>
-            "favoriteMovie": []<br>
+            "Username": "Alex",<br>
+            "FavMovies": []<br>
         }
         </td>
         <td>
           A JSON object holding data about the student that was added including an ID:<br><br>
           {
-            "name": "Alex",<br>
-            "favoriteMovie": [],<br>
-            "id": "97b5728f-cee4-47ca-b274-eb1ed953c8c5"<br>
+            "Username": "Alex",<br>
+            "FavMovies": [],<br>
+            "id": 2<br>
         }
         </td>
       </tr>
@@ -90,21 +89,21 @@
         <td>A JSON object holding data about a existing user to update/post, structured like:<br><br>
           {
             "id": 1,<br>
-            "name": "Jim Chong-Wu",<br>
-            "password": "12345678",<br>
-            "email": "JJJ@Jmail.com",<br>
-            "birthDay": "1999-01-27"<br>
+            "Username": "Jim Chong-Wu",<br>
+            "Password": "12345678",<br>
+            "Email": "JJJ@Jmail.com",<br>
+            "Birth_date": "1999-01-27"<br>
           }
         </td>
         <td>
           A JSON show updated user's profile:<br><br>
           {
             "id": 1,<br>
-            "name": "Jim Chong-Wu",<br>
-            "favoriteMovie": [],<br>
-            "password": "12345678",<br>
-            "email": "JJJ@Jmail.com",<br>
-            "birthDay": "1999-01-27"<br>
+            "Username": "Jim Chong-Wu",<br>
+            "FavMovies": [],<br>
+            "Password": "12345678",<br>
+            "Email": "JJJ@Jmail.com",<br>
+            "Birth_date": "1999-01-27"<br>
           }
         </td>
       </tr>
