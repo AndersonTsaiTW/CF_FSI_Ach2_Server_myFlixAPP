@@ -1,3 +1,12 @@
+const mongoose = require('mongoose');
+// link to the schema in model.js
+const Models = require('./model.js');
+const Movies = Models.Movie;
+const Users = Models.User;
+// link to the MongoDB - cfMovie
+mongoose.connect('mongodb://localhost:27017/cfMovie',{useNewUrlParser: true, useUnifiedTopology: true});
+
+// require the necessary modules
 const express = require('express'),
   app = express(),
   bodyParser = require('body-parser'),
