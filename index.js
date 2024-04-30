@@ -31,292 +31,178 @@ app.use((err, req, res, next) => {
 
 app.use(express.static('public'));
 
-let users = [
-  {
-    "id": 1,
-    "name": "kim",
-    "favoriteMovie": []
-  },
-  {
-    "id": 2,
-    "name": "Jean",
-    "favoriteMovie": ["Underwater"]
-  }
-]
-
-let movies = [
-  {
-    "title": "The Grudge",
-    "year": 2020,
-    "director": {
-      "name": "Fred Astaire",
-      "birth": "1899",
-      "death": "1987",
-      "bio": "actor,miscellaneous,producer"
-    },
-    "cast": [
-      "Andrea Riseborough",
-      "Demián Bichir",
-      "John Cho",
-      "Betty Gilpin",
-      "Lin Shaye",
-      "Jacki Weaver"
-    ],
-    "genres": [
-      "Horror",
-      "Supernatural"
-    ],
-    "href": "The_Grudge_(2020_film)",
-    "extract": "The Grudge is a 2020 American psychological supernatural horror film written and directed by Nicolas Pesce. Originally announced as a reboot of the 2004 American remake and the original 2002 Japanese horror film Ju-On: The Grudge, the film ended up taking place before and during the events of the 2004 film and its two direct sequels, and is the fourth installment in the American The Grudge film series. The film stars Andrea Riseborough, Demián Bichir, John Cho, Betty Gilpin, Lin Shaye, and Jacki Weaver, and follows a police officer who investigates several murders that are seemingly connected to a single house.",
-    "thumbnail": "https://upload.wikimedia.org/wikipedia/en/3/34/The_Grudge_2020_Poster.jpeg",
-    "thumbnail_width": 220,
-    "thumbnail_height": 326
-  },
-  {
-    "title": "Underwater",
-    "year": 2020,
-    "director": {
-      "name": "Lauren Bacall",
-      "birth": "1924",
-      "death": "2014",
-      "bio": "actress,soundtrack,archive_footage"
-    },
-    "cast": [
-      "Kristen Stewart",
-      "Vincent Cassel",
-      "Jessica Henwick",
-      "John Gallagher Jr.",
-      "Mamoudou Athie",
-      "T.J. Miller"
-    ],
-    "genres": [
-      "Action",
-      "Horror",
-      "Science Fiction"
-    ],
-    "href": "Underwater_(film)",
-    "extract": "Underwater is a 2020 American science fiction action horror film directed by William Eubank. The film stars Kristen Stewart, Vincent Cassel, Jessica Henwick, John Gallagher Jr., Mamoudou Athie, and T.J. Miller.",
-    "thumbnail": "https://upload.wikimedia.org/wikipedia/en/4/4a/Underwater_poster.jpeg",
-    "thumbnail_width": 250,
-    "thumbnail_height": 398
-  },
-  {
-    "title": "Like a Boss",
-    "year": 2020,
-    "director": {
-      "name": "Fred Astaire",
-      "birth": "1899",
-      "death": "1987",
-      "bio": "actor,miscellaneous,producer"
-    },
-    "cast": [
-      "Tiffany Haddish",
-      "Rose Byrne",
-      "Salma Hayek",
-      "Jennifer Coolidge",
-      "Billy Porter"
-    ],
-    "genres": [
-      "Comedy"
-    ],
-    "href": "Like_a_Boss_(film)",
-    "extract": "Like a Boss is a 2020 American comedy film directed by Miguel Arteta, written by Sam Pitman and Adam Cole-Kelly, and starring Tiffany Haddish, Rose Byrne, and Salma Hayek. The plot follows two friends who attempt to take back control of their cosmetics company from an industry titan.",
-    "thumbnail": "https://upload.wikimedia.org/wikipedia/en/9/9a/LikeaBossPoster.jpg",
-    "thumbnail_width": 259,
-    "thumbnail_height": 383
-  },
-  {
-    "title": "Three Christs",
-    "year": 2020,
-    "director": {
-      "name": "Lauren Bacall",
-      "birth": "1924",
-      "death": "2014",
-      "bio": "actress,soundtrack,archive_footage"
-    },
-    "cast": [
-      "Richard Gere",
-      "Peter Dinklage",
-      "Walton Goggins",
-      "Bradley Whitford"
-    ],
-    "genres": [
-      "Drama"
-    ],
-    "href": "Three_Christs",
-    "extract": "Three Christs, also known as State of Mind, is a 2017 American drama film directed, co-produced, and co-written by Jon Avnet and based on Milton Rokeach's nonfiction book The Three Christs of Ypsilanti. It screened in the Gala Presentations section at the 2017 Toronto International Film Festival. The film is also known as: Three Christs of Ypsilanti, The Three Christs of Ypsilanti, Three Christs of Santa Monica, and The Three Christs of Santa Monica.",
-    "thumbnail": "https://upload.wikimedia.org/wikipedia/en/a/a1/Three_Christs_poster.jpg",
-    "thumbnail_width": 259,
-    "thumbnail_height": 383
-  },
-  {
-    "title": "Inherit the Viper",
-    "year": 2020,
-    "director": {
-      "name": "Brigitte Bardot",
-      "birth": "1934",
-      "death": "Nan",
-      "bio": "actress,music_department,producer"
-    },
-    "cast": [
-      "Josh Hartnett",
-      "Margarita Levieva",
-      "Chandler Riggs",
-      "Bruce Dern",
-      "Owen Teague"
-    ],
-    "genres": [
-      "Crime",
-      "Drama"
-    ],
-    "href": "Inherit_the_Viper",
-    "extract": "Inherit the Viper is a 2019 American crime drama film directed by Anthony Jerjen, in his feature directorial debut, from a screenplay by Andrew Crabtree. It stars Josh Hartnett, Margarita Levieva, Chandler Riggs, Bruce Dern, Valorie Curry, Owen Teague, and Dash Mihok.",
-    "thumbnail": "https://upload.wikimedia.org/wikipedia/en/1/1c/Inherit_the_Viper_%282019%29_Film_Poster.jpg",
-    "thumbnail_width": 236,
-    "thumbnail_height": 350
-  },
-  {
-    "title": "The Sonata",
-    "year": 2020,
-    "director": {
-      "name": "Ingmar Bergman",
-      "birth": "1918",
-      "death": "2007",
-      "bio": "writer,director,actor"
-    },
-    "cast": [
-      "Freya Tingley",
-      "Simon Abkarian",
-      "Rutger Hauer",
-      "James Faulkner"
-    ],
-    "genres": [
-      "Mystery",
-      "Thriller"
-    ],
-    "href": "The_Sonata_(film)",
-    "extract": "The Sonata is a 2018 mystery thriller film, directed by Andrew Desmond, from a screenplay by Desmond and Arthur Morin. It stars Freya Tingley, Simon Abkarian, James Faulkner, Rutger Hauer, Matt Barber and James Kermack. It was released in the United States on January 10, 2020, by Screen Media Films. It grossed $146,595 at the box office and received mixed reviews from critics.",
-    "thumbnail": "https://upload.wikimedia.org/wikipedia/en/1/13/The_Sonata_%282018%29_Film_Poster.jpg",
-    "thumbnail_width": 246,
-    "thumbnail_height": 350
-  }
-];
-
 // Welcome message
 app.get('/', (req, res) => {
   res.send('Welcome! You are visiting a movie-lover place!');
 });
 // CREATE a new user
-app.post('/users', (req, res) => {
-  const newUser = req.body;
-
-  if (newUser.name) {
-    newUser.id = uuid.v4();
-    users.push(newUser);
-    res.status(201).json(newUser)
-  } else {
-    res.status(400).send('users need names')
-  }
-});
-// UPDATE a user's information
-app.put('/users/:id', (req, res) => {
-  const {id} = req.params;
-  const updateUser = req.body;
-
-  let user = users.find( user => user.id == id);
-
-  if (user) {
-    user.name = updateUser.name;
-    user.password = updateUser.password;
-    user.email = updateUser.email;
-    user.birthDay = updateUser.birthDay;
-    res.status(200).json(user);
-  } else {
-    res.status(400).send('no this user')
-  }
-});
-// CREATE a movie in user's faverite movie list
-app.post('/users/:id/:movieTitle', (req, res) => {
-  const { id, movieTitle } = req.params;
-  let user = users.find( user => user.id == id);
-
-  if (user) {
-    user.favoriteMovie.push(movieTitle);
-    res.status(200).send(`${movieTitle} has been added to user ${id}'s list`);
-  } else {
-    res.status(400).send('no this user')
-  }
-});
-// DELETE a movie in user's faverite movie list
-app.delete('/users/:id/:movieTitle', (req, res) => {
-  const { id, movieTitle } = req.params;
-  let user = users.find( user => user.id == id);
-
-  if (user) {
-    user.favoriteMovie = user.favoriteMovie.filter( title => title !== movieTitle);
-    // res.status(200).json(user);
-    res.status(200).send(`${movieTitle} has been removed from user ${id}'s list`);
-  } else {
-    res.status(400).send('no this user')
-  }
-});
-// DELETE a user
-app.delete('/users/:id', (req, res) => {
-  const { id } = req.params;
-  let user = users.find( user => user.id == id);
-
-  if (user) {
-    // everyUser is a lambda paramater, it could be change the name if it keep the structure A => A.id != id
-    users = users.filter( everyUser => everyUser.id != id);
-    // res.status(200).json(users);
-    res.status(200).send(`user ${id} has been removed from users list`);
-  } else {
-    res.status(400).send('no this user')
-  }
-});
-
-// READ all movie list
-app.get('/movies', (req, res) => {
-  res.status(200).json(movies);
-});
-// READ movie's information by title
-app.get('/movies/:title', (req, res) => {
-  const { title } = req.params;
-  const movie = movies.find( movie => movie.title === title);
-
-  if (movie) {
-    res.status(200).json(movie);
-  } else {
-    res.status(400).send('We cannot find this movie!');
-  }
-});
-//READ genre by its name
-app.get('/genre/:genreName', (req, res) => {
-  fs.readFile('genre.json', 'utf8', (err, data) => {
-    if (err) {
-      res.status(500).send('Unable to read movies data');
-      return;
-    }
-    const genres = JSON.parse(data);
-    const { genreName } = req.params;
-    const genre = genres.find( movie => movie.name === genreName);
-
-    if (genre) {
-      res.status(200).json(genre);
+app.post('/users', async(req, res) => {
+  await Users.findOne({ Username: req.body.Username
+  })
+  .then((user) => {
+    if (user) {
+      return res.status(400).send(req.body.Username + 'already exists');
     } else {
-      res.status(400).send('We cannot find this genre!');
+      Users
+      .create({
+        Username: req.body.Username,
+        Password: req.body.Password,
+        Email: req.body.Email,
+        Birth_date: req.body.Birth_date
+      })
+      .then((user) => {res.status(201).json(user)
+      })
+      .catch((error) => {
+        console.error(error);
+        res.status(500).send('Error:' + error);
+      })
     }
+  })
+  .catch((error) =>{
+    console.error(error);
+    res.status(500).send('Error:' + error);
   });
 });
-// READ diretion's information by its name
-app.get('/movies/director/:directorName', (req, res) => {
-  const { directorName } = req.params;
-  const director = movies.find( movie => movie.director.name === directorName).director;
 
-  if (director) {
-    res.status(200).json(director);
-  } else {
-    res.status(400).send('We cannot find this director!');
+//GET the all users' data(haven't wrote in documents)
+app.get('/users', async(req,res) =>{
+  await Users.find()
+  .then( (users) => {
+    res.status(201).json(users);
+  })
+  .catch((err) => {
+    console.error(err);
+    res.status(500).send('Error: ' + err);
+  });
+});
+//GET one user's data(haven't wrote in documents)
+app.get('/users/:Username', async(req,res) =>{
+  await Users.findOne({ Username: req.params.Username})
+  .then((users) => {
+    res.status(201).json(users);
+  })
+  .catch((err) => {
+    console.error(err);
+    res.status(500).send('Error: ' + err);
+  });
+});
+// UPDATE a user's information
+app.put('/users/:Username', async(req, res) => {
+  await Users.findOneAndUpdate(
+    {Username: req.params.Username},
+    { $set: 
+      {
+        Username : req.body.Username,
+        Password : req.body.Password,
+        Email : req.body.Email,
+        // be careful, if the column's names are different between mongoose schema and real MongoDB
+        // it will create a new column directly. so keep them consistent
+        // EX: Birth_date( = schema and MongoDB): req.body.Birthday( = request raw data's column)
+        // if the code here(EX:Birth_date) and schema(EX:Birthday) are not equal, data will not be transfer
+        Birth_date: req.body.Birth_date
+      }
+    },
+  { new: true }) //make sure the update
+  .then((updatedUser) => {
+    res.json(updatedUser);
+  })
+  .catch((err) => {
+    console.error(err);
+    res.status(500).send('Error:' + err);
+  })
+});
+// CREATE a movie in user's faverite movie list
+app.post('/users/:Username/movies/:movieID', async(req, res) => {
+  await Users.findOneAndUpdate(
+    {Username: req.params.Username},
+    {$push: {FavMovies: req.params.movieID}},
+    {new:true})
+    .then((updateUser) => {
+      res.json(updateUser);
+    })
+    .catch((err) => {
+      console.error(err);
+      res.status(500).send('Error:' + err);
+    });
+  });
+// DELETE a movie in user's faverite movie list
+// documents need to be update
+app.delete('/users/:Username/movies/:movieID', async(req, res) => {
+  await Users.findOneAndUpdate(
+    { Username: req.params.Username },
+    { $pull: {FavMovies: req.params.movieID} },
+    {new:true})
+    .then((updatedUser) => {
+      res.json(updatedUser);
+    })
+    .catch((err) => {
+      console.error(err);
+      res.status(500).send('Error:' + err);
+    });
+  });
+// DELETE a user
+app.delete('/users/:Username', async(req, res) => {
+  await Users.findOneAndDelete(
+    { Username : req.params.Username })
+    .then((user) => {
+      if (!user) {
+        res.status(400).send(req.params.Username + ' was not found.');
+      } else {
+        res.status(200).send(req.params.Username + ' was deleted.');
+      }
+    })
+    .catch((err) => {
+      console.error(err);
+      res.status(500).send('Error:' + err);
+    })
+  });
+
+// READ all movie list
+app.get('/movies', async(req, res) => {
+  await Movies.find()
+  .then((movies) => {
+    res.status(200).json(movies);
+  })
+  .catch((err) => {
+    console.error(err);
+    res.status(500).send('Error: ' + err);
+  });
+});
+// READ movie's information by title
+app.get('/movies/:title', async(req, res) => {
+  await Movies.findOne({Title: req.params.title})
+  .then((movie) => { 
+    res.status(201).json(movie);
+  })
+  .catch((err) => {
+    console.error(err);
+    res.status(400).send('Error: ' + err);
+  });
+});
+//READ genre by its name
+app.get('/movies/genre/:genreName', async(req, res) => {
+  try {
+  const movie = await Movies.findOne({ 'Genre.Name': req.params.genreName });
+  if (!movie) {
+    res.status(404).send(req.params.genreName + 'not found');
+  }
+    res.status(200).json(movie.Genre);
+  } catch (err) {
+    console.error(err);
+    res.status(400).send('Error:' + err);
+  }
+});
+// READ diretion's information by its name
+app.get('/movies/director/:directorName', async(req, res) => {
+  try {
+    const movie = await Movies.findOne({'Director.Name': req.params.directorName});
+    if (!movie) {
+      res.status(404).send( req.params.directorName + 'is not found.');
+    }
+    res.status(200).json(movie.Director);
+  } catch (err) {
+    console.error(err);
+    res.status(400).send('Error: ' + err);
   }
 });
 

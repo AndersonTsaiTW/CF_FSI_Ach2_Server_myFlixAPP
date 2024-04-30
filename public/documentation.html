@@ -39,7 +39,7 @@
       </tr>
       <tr>
         <td>Return data about a genre (description) by name/title (e.g., “Thriller”)</td>
-        <td>/Genre/[GenreName]</td>
+        <td>/movies/genre/[GenreName]</td>
         <td>GET</td>
         <td>None</td>
         <td>A JSON object holding data about a spcific genre, including name and description. Example: <br><br>
@@ -68,62 +68,90 @@
         <td>/users</td>
         <td>POST</td>
         <td>A JSON object holding data about new user to add, structured like:<br><br>
-          {
-            "Username": "Alex",<br>
-            "FavMovies": []<br>
+          {<br>
+            "Username": "AndersonTsai",<br>
+            "Password": "pass666",<br>
+            "Email": "AndersonTsai@example.com",<br>
+            "Birth_date": "1987-06-10"<br>
         }
         </td>
         <td>
           A JSON object holding data about the student that was added including an ID:<br><br>
-          {
-            "Username": "Alex",<br>
+          {<br>
+            "Username": "AndersonTsai",<br>
+            "Password": "pass666",<br>
+            "Email": "AndersonTsai@example.com",<br>
+            "Birth_date": "1987-06-10T00:00:00.000Z",<br>
             "FavMovies": [],<br>
-            "id": 2<br>
+            "_id": "6630822b1894974d52d616fe",<br>
+            "__v": 0<br>
         }
         </td>
       </tr>
       <tr>
         <td>Allow users to update their user info (username, password, email, date of birth)</td>
-        <td>/users/[userID]</td>
+        <td>/users/[Username]</td>
         <td>PUT</td>
         <td>A JSON object holding data about a existing user to update/post, structured like:<br><br>
-          {
-            "id": 1,<br>
-            "Username": "Jim Chong-Wu",<br>
-            "Password": "12345678",<br>
-            "Email": "JJJ@Jmail.com",<br>
-            "Birth_date": "1999-01-27"<br>
-          }
+          {<br>
+            "Username": "AndersonTsai",<br>
+            "Password": "pass666",<br>
+            "Email": "AndersonTsai@example.com",<br>
+            "Birth_date": "1987-06-11"<br>
+        }
         </td>
         <td>
           A JSON show updated user's profile:<br><br>
-          {
-            "id": 1,<br>
-            "Username": "Jim Chong-Wu",<br>
+          {<br>
+            "_id": "6630822b1894974d52d616fe",<br>
+            "Username": "AndersonTsai",<br>
+            "Password": "pass666",<br>
+            "Email": "AndersonTsai@example.com",<br>
+            "Birth_date": "1987-06-11T00:00:00.000Z",<br>
             "FavMovies": [],<br>
-            "Password": "12345678",<br>
-            "Email": "JJJ@Jmail.com",<br>
-            "Birth_date": "1999-01-27"<br>
-          }
+            "__v": 0<br>
+        }
         </td>
       </tr>
       <tr>
         <td>Allow users to add a movie to their list of favorites</td>
-        <td>/users/[userID]/[movieName]</td>
+        <td>/users/[userName]/movies/[movieID]</td>
         <td>POST</td>
         <td>None</td>
-        <td>Send back a confirmation message</td>
+        <td>Send back an updated JSON as below<br><br>
+          {<br>
+            "_id": "6630822b1894974d52d616fe",<br>
+            "Username": "AndersonTsai",<br>
+            "Password": "pass666",<br>
+            "Email": "AndersonTsai@example.com",<br>
+            "Birth_date": "1987-06-11T00:00:00.000Z",<br>
+            "FavMovies": [<br>
+                "66286858ded157b056117b81"<br>
+            ],<br>
+            "__v": 0<br>
+        }
+        </td>
       </tr>
       <tr>
         <td>Allow users to remove a movie from their list of favorites</td>
-        <td>/users/[userID]/[movieName]</td>
+        <td>/users/[username]/movies/[movieID]</td>
         <td>DELETE</td>
         <td>None</td>
-        <td>Send back a confirmation message</td>
+        <td>Send back an updated JSON as below<br><br>
+          {<br>
+            "_id": "6630822b1894974d52d616fe",<br>
+            "Username": "AndersonTsai",<br>
+            "Password": "pass666",<br>
+            "Email": "AndersonTsai@example.com",<br>
+            "Birth_date": "1987-06-11T00:00:00.000Z",<br>
+            "FavMovies": [],<br>
+            "__v": 0<br>
+        }
+        </td>
       </tr>
       <tr>
         <td>allow existing users to deregister</td>
-        <td>/users/[userID]</td>
+        <td>/users/[username]</td>
         <td>DELETE</td>
         <td>None</td>
         <td>Send back a confirmation message</td>
