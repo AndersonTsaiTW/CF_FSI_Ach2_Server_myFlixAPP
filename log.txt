@@ -226,3 +226,4 @@
 ::1 - - [02/May/2024:14:32:08 +0000] "POST /login?Username=AndersonTsai&Password=pass666 HTTP/1.1" 200 592 "-" "PostmanRuntime/7.38.0"
 ::1 - - [02/May/2024:14:32:29 +0000] "GET /movies HTTP/1.1" 401 - "-" "PostmanRuntime/7.38.0"
 ::1 - - [02/May/2024:14:34:38 +0000] "GET /movies HTTP/1.1" 401 - "-" "PostmanRuntime/7.38.0"
+::1 - - [02/May/2024:14:51:30 +0000] "GET /movies HTTP/1.1" 401 - "-" "PostmanRuntime/7.38.0"
