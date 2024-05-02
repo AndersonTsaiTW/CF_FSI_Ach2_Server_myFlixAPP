@@ -17,9 +17,11 @@ const express = require('express'),
 
 app.use(bodyParser.json());
 
+app.use(bodyParser.urlencoded({ extended: true }));
+
 // create a write stream (in append mode)
 // a ‘log.txt’ file is created in root directory
-const accessLogStream = fs.createWriteStream(path.join(__dirname, 'log.txt'), {flags: 'a'})
+const accessLogStream = fs.createWriteStream(path.join(__dirname, 'log.txt'), {flags: 'a'});
 
 // setup the logger
 app.use(morgan('combined', {stream: accessLogStream}));
@@ -30,6 +32,11 @@ app.use((err, req, res, next) => {
 });
 
 app.use(express.static('public'));
+
+// import the auth.js and passport.js
+let auth = require('./auth')(app);
+const passport = require('passport');
+require('./passport');
 
 // Welcome message
 app.get('/', (req, res) => {
@@ -87,8 +94,14 @@ app.get('/users/:Username', async(req,res) =>{
   });
 });
 // UPDATE a user's information
-app.put('/users/:Username', async(req, res) => {
+app.put('/users/:Username', passport.authenticate('jwt', { session: false }), async(req, res) => {
+      // CONDITION TO CHECK ADDED HERE
+      if (req.user.Username !== req.params.Username) {
+        return res.status(400).send('Permission denied');
+      }
+      // CONDITION ENDS
   await Users.findOneAndUpdate(
+    
     {Username: req.params.Username},
     { $set: 
       {
@@ -158,7 +171,7 @@ app.delete('/users/:Username', async(req, res) => {
   });
 
 // READ all movie list
-app.get('/movies', async(req, res) => {
+app.get('/movies', passport.authenticate('jwt', { session: false }), async(req, res) => {
   await Movies.find()
   .then((movies) => {
     res.status(200).json(movies);
