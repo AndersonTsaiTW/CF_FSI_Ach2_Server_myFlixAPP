@@ -2,3 +2,4 @@ node_modules
 dataMeasure.py
 director.json
 topMovies.json
+decode_jwt.js
