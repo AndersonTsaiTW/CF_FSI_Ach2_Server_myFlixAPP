@@ -4,8 +4,10 @@ const mongoose = require('mongoose');
 const Models = require('./model.js');
 const Movies = Models.Movie;
 const Users = Models.User;
-// link to the MongoDB - cfMovie
-mongoose.connect('mongodb://localhost:27017/cfMovie',{useNewUrlParser: true, useUnifiedTopology: true});
+// link to the Local MongoDB - cfMovie
+// mongoose.connect('mongodb://localhost:27017/cfMovie',{useNewUrlParser: true, useUnifiedTopology: true});
+// link to the Remote Mongo Atlas - cfMovie
+mongoose.connect(process.env.CONNECTION_URI,{useNewUrlParser: true, useUnifiedTopology: true});
 
 // require the necessary modules
 const express = require('express'),
