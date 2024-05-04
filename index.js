@@ -17,6 +17,7 @@ const express = require('express'),
   path = require('path');
 
 // the modules about cors
+// cors is used to control the login location
 const cors = require('cors');
 app.use(cors());
 
@@ -43,12 +44,27 @@ let auth = require('./auth')(app);
 const passport = require('passport');
 require('./passport');
 
+// import the express-validator modules
+const {check, validationResult} = require('express-validator');
+
 // Welcome message
 app.get('/', (req, res) => {
   res.send('Welcome! You are visiting a movie-lover place!');
 });
 // CREATE a new user
-app.post('/users', async(req, res) => {
+app.post('/users',
+  [
+    // the way to use check: check( object, the message return to user when it get wrong).rule
+    check('Username', 'Username is required').isLength({min: 5}),
+    check('Username','Username contains non alphanu meric characters').isAlphanumeric(),
+    check('Password','Password is required').not().isEmpty(),
+    check('Email', 'Email is not valid'),isEmail()
+  ], async(req, res) => {
+    let errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(422).json({ errors:errors.array()});
+    }
+  let hashedPassword = Users.hashPassword(req.body.Password);
   await Users.findOne({ Username: req.body.Username
   })
   .then((user) => {
@@ -58,7 +74,7 @@ app.post('/users', async(req, res) => {
       Users
       .create({
         Username: req.body.Username,
-        Password: req.body.Password,
+        Password: hashedPassword,
         Email: req.body.Email,
         Birth_date: req.body.Birth_date
       })
@@ -237,6 +253,7 @@ app.get('/movies/director/:directorName', passport.authenticate('jwt', { session
 });
 
 // basic message to check if the host is running
-app.listen(8080, () => {
-  console.log('Your app is listening on port 8080.');
+const port = process.env.PORT || 8080;
+app.listen(port, '0.0.0.0' , () => {
+  console.log('Listening on port ' + port);
 });
