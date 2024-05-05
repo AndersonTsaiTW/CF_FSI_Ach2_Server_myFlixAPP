@@ -219,7 +219,8 @@ app.get('/movies', passport.authenticate('jwt', { session: false }), async(req, 
 });
 // READ movie's information by title
 app.get('/movies/:title', passport.authenticate('jwt', { session: false }), async(req, res) => {
-  await Movies.findOne({Title: req.params.title})
+  const decodedTitle = decodeURIComponent(req.params.title);
+  await Movies.findOne({Title: decodedTitle})
   .then((movie) => { 
     res.status(201).json(movie);
   })
@@ -231,9 +232,10 @@ app.get('/movies/:title', passport.authenticate('jwt', { session: false }), asyn
 //READ genre by its name
 app.get('/movies/genre/:genreName', passport.authenticate('jwt', { session: false }), async(req, res) => {
   try {
-  const movie = await Movies.findOne({ 'Genre.Name': req.params.genreName });
+  const decodedGeren = decodeURIComponent(req.params.genreName);
+  const movie = await Movies.findOne({ 'Genre.Name': decodedGeren });
   if (!movie) {
-    res.status(404).send(req.params.genreName + 'not found');
+    res.status(404).send(decodedGeren + 'not found');
   }
     res.status(200).json(movie.Genre);
   } catch (err) {
@@ -244,9 +246,10 @@ app.get('/movies/genre/:genreName', passport.authenticate('jwt', { session: fals
 // READ diretion's information by its name
 app.get('/movies/director/:directorName', passport.authenticate('jwt', { session: false }), async(req, res) => {
   try {
-    const movie = await Movies.findOne({'Director.Name': req.params.directorName});
+    const decodedDirectore = decodeURIComponent(req.params.directorName);
+    const movie = await Movies.findOne({'Director.Name': decodedDirectore});
     if (!movie) {
-      res.status(404).send( req.params.directorName + 'is not found.');
+      res.status(404).send( decodedDirectore + 'is not found.');
     }
     res.status(200).json(movie.Director);
   } catch (err) {
