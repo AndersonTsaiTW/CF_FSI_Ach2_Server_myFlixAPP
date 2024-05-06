@@ -130,18 +130,23 @@ app.put('/users/:Username',
   check('Email', 'Email is not valid').isEmail()
 ],
   async(req, res) => {
+    let errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(402).json({ errors: errors.array() });
+    }
   // CONDITION TO CHECK ADDED HERE
-  if (req.user.Username !== req.params.Username) {
-    return res.status(400).send('Permission denied');
-  }
+    if (req.user.Username !== req.params.Username) {
+      return res.status(400).send('Permission denied');
+    }
   // CONDITION ENDS
+  let hashedPassword = Users.hashPassword(req.body.Password);
   await Users.findOneAndUpdate(
     
     {Username: req.params.Username},
     { $set: 
       {
         Username : req.body.Username,
-        Password : req.body.Password,
+        Password : hashedPassword,
         Email : req.body.Email,
         // be careful, if the column's names are different between mongoose schema and real MongoDB
         // it will create a new column directly. so keep them consistent
