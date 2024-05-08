@@ -94,32 +94,6 @@ app.post('/users',
     res.status(500).send('Error:' + error);
   });
 });
-
-//GET the all users' data(haven't wrote in documents)
-app.get('/users', async(req,res) =>{
-  await Users.find()
-  .then( (users) => {
-    res.status(201).json(users);
-  })
-  .catch((err) => {
-    console.error(err);
-    res.status(500).send('Error: ' + err);
-  });
-});
-//GET one user's data(haven't wrote in documents)
-app.get('/users/:Username', passport.authenticate('jwt', { session: false }), async(req,res) =>{
-  if (req.user.Username !== req.params.Username) {
-    return res.status(400).send('Permission denied');
-  }
-  await Users.findOne({ Username: req.params.Username})
-  .then((users) => {
-    res.status(201).json(users);
-  })
-  .catch((err) => {
-    console.error(err);
-    res.status(500).send('Error: ' + err);
-  });
-});
 // UPDATE a user's information
 app.put('/users/:Username', 
 [
@@ -141,7 +115,6 @@ app.put('/users/:Username',
   // CONDITION ENDS
   let hashedPassword = Users.hashPassword(req.body.Password);
   await Users.findOneAndUpdate(
-    
     {Username: req.params.Username},
     { $set: 
       {
