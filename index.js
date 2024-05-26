@@ -54,6 +54,7 @@ const {check, validationResult} = require('express-validator');
 app.get('/', (req, res) => {
   res.send('Welcome! You are visiting a movie-lover place!');
 });
+
 // CREATE a new user
 app.post('/users',
   [
@@ -94,6 +95,7 @@ app.post('/users',
     res.status(500).send('Error:' + error);
   });
 });
+
 // UPDATE a user's information
 app.put('/users/:Username', 
 [
@@ -137,6 +139,7 @@ app.put('/users/:Username',
     res.status(500).send('Error:' + err);
   })
 });
+
 // CREATE a movie in user's faverite movie list
 app.post('/users/:Username/movies/:movieID',
   passport.authenticate('jwt', { session: false }),
@@ -155,9 +158,10 @@ app.post('/users/:Username/movies/:movieID',
       console.error(err);
       res.status(500).send('Error:' + err);
     });
-  });
+  }
+);
+
 // DELETE a movie in user's faverite movie list
-// documents need to be update
 app.delete('/users/:Username/movies/:movieID', passport.authenticate('jwt', { session: false }), async(req, res) => {
   if (req.user.Username !== req.params.Username) {
     return res.status(400).send('Permission denied');
@@ -173,7 +177,9 @@ app.delete('/users/:Username/movies/:movieID', passport.authenticate('jwt', { se
       console.error(err);
       res.status(500).send('Error:' + err);
     });
-  });
+  }
+);
+
 // DELETE a user
 app.delete('/users/:Username', passport.authenticate('jwt', { session: false }), async(req, res) => {
   if (req.user.Username !== req.params.Username) {
@@ -192,7 +198,8 @@ app.delete('/users/:Username', passport.authenticate('jwt', { session: false }),
       console.error(err);
       res.status(500).send('Error:' + err);
     })
-  });
+  }
+);
 
 // READ all movie list
 app.get('/movies', passport.authenticate('jwt', { session: false }), async(req, res) => {
@@ -205,6 +212,7 @@ app.get('/movies', passport.authenticate('jwt', { session: false }), async(req, 
     res.status(500).send('Error: ' + err);
   });
 });
+
 // READ movie's information by title
 app.get('/movies/:title', passport.authenticate('jwt', { session: false }), async(req, res) => {
   const decodedTitle = decodeURIComponent(req.params.title);
@@ -217,6 +225,7 @@ app.get('/movies/:title', passport.authenticate('jwt', { session: false }), asyn
     res.status(400).send('Error: ' + err);
   });
 });
+
 //READ genre by its name
 app.get('/movies/genre/:genreName', passport.authenticate('jwt', { session: false }), async(req, res) => {
   try {
@@ -231,6 +240,7 @@ app.get('/movies/genre/:genreName', passport.authenticate('jwt', { session: fals
     res.status(400).send('Error:' + err);
   }
 });
+
 // READ diretion's information by its name
 app.get('/movies/director/:directorName', passport.authenticate('jwt', { session: false }), async(req, res) => {
   try {
