@@ -20,8 +20,6 @@ module.exports = (router) => {
     (error, user, info) => {
         // if some errors happen when authenticate
         if (error || !user) {
-            // console.error('Error:', error);
-            // console.log('User:', user);
             return res.status(400).json({
                 message: 'Something is not right',
                 user: user
