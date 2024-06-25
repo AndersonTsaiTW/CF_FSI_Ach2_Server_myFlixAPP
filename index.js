@@ -21,7 +21,7 @@ const express = require('express'),
 // the modules about cors
 // cors is used to control the login location
 const cors = require('cors');
-let allowedOrigins = ['http://localhost:8080', 'http://testsite.com', 'http://localhost:1234', 'https://andersoncfmyfilx.netlify.app/'];
+let allowedOrigins = ['http://localhost:8080', 'http://testsite.com', 'http://localhost:1234', 'https://andersoncfmyfilx.netlify.app'];
 
 app.use(cors({
   origin: (origin, callback) => {
