@@ -1,11 +1,10 @@
 # CF_FullStake_Ach2_Server_myFlixAPP
 
 The CareerFoundry, Full-Stack Website courses, Achievement 2: Create a REST API  
-Welcome to visit my API [(Click Here)](https://andersonmovie-fda719d938ac.herokuapp.com/)
+Welcome to visit my [API Site](https://andersonmovie-fda719d938ac.herokuapp.com/), and [Documentation](https://andersonmovie-fda719d938ac.herokuapp.com/documentation.html)
 
 ## Introduction
 * This simple API allows users to access movie information and add movies to their favourite list upon registration/login.
-* Please click this [link](https://andersonmovie-fda719d938ac.herokuapp.com/documentation.html/ "API Documentation") to see the documentation of this API.
 * Currently, the majority of features can only be executed within the API testing environment.
 
 ## Tech - MEN from the MERN stack use: MongoDB, Express, and Node.js
