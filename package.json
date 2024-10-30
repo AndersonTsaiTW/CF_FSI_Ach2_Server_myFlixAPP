@@ -13,6 +13,7 @@
     "locate-path": "^6.0.0",
     "mongoose": "^8.3.2",
     "morgan": "^1.10.0",
+    "movie_api": "file:",
     "passport": "^0.7.0",
     "passport-jwt": "^4.0.1",
     "passport-local": "^1.0.0",
