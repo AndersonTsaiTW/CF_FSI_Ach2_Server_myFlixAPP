@@ -1,25 +1,29 @@
 <!DOCTYPE html>
+<!-- public\documentation.html -->
 <html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>documentation</title>
+  </head>
 
-<head>
-  <meta charset="utf-8">
-  <title>documentation</title>
-</head>
-
-<body>
+  <body>
     <h1>What you can get from this Api?</h1>
-    <p>Feature Requirements
-        The feature requirements below were extracted from the user stories listed above. Your project will
-        only be approved if the following “essential” feature requirements are implemented in your
-        Achievement project.</p>
+    <p>
+      Feature Requirements The feature requirements below were extracted from
+      the user stories listed above. Your project will only be approved if the
+      following “essential” feature requirements are implemented in your
+      Achievement project.
+    </p>
     <p>Essential Features:</p>
     <table border="1">
       <tr>
-        <th style="width: 25%;">Request</th>
-        <th style="width: 10%;">URL<br>(query parameters in square brackets:[])</th>
+        <th style="width: 25%">Request</th>
+        <th style="width: 10%">
+          URL<br />(query parameters in square brackets:[])
+        </th>
         <th>Http Method</th>
-        <th style="width: 25%;">Request body data format</th>
-        <th style="width: 25%;">Response body data format</th>
+        <th style="width: 25%">Request body data format</th>
+        <th style="width: 25%">Response body data format</th>
       </tr>
       <tr>
         <td>Return a list of ALL movies to the user</td>
@@ -29,37 +33,55 @@
         <td>A JSON object holding data about all the movies</td>
       </tr>
       <tr>
-        <td>Return data (description, genre, director, image URL, whether its featured or not) 
-          about a single movie by title to the user</td>
-        <td>/movies/[Title]<br>
-          EX:/movies/The Grudge</td>
+        <td>
+          Return data (description, genre, director, image URL, whether its
+          featured or not) about a single movie by title to the user
+        </td>
+        <td>
+          /movies/[Title]<br />
+          EX:/movies/The Grudge
+        </td>
         <td>GET</td>
         <td>None</td>
         <td>A JSON object holding data about the specific movies</td>
       </tr>
       <tr>
-        <td>Return data about a genre (description) by name/title (e.g., “Thriller”)</td>
+        <td>
+          Return data about a genre (description) by name/title (e.g.,
+          “Thriller”)
+        </td>
         <td>/movies/genre/[GenreName]</td>
         <td>GET</td>
         <td>None</td>
-        <td>A JSON object holding data about a spcific genre, including name and description. Example: <br><br>
-          {
-            "name": "Action",<br>
-            "description": "Should contain numerous scenes where action is spectacular and usually destructive. Often includes non-stop motion, high energy physical stunts, chases, battles, and destructive crises (floods, explosions, natural disasters, fires, etc.) Note: if a movie contains just one action scene (even if prolonged, i.e. airplane-accident) it does not qualify. Subjective."<br>
+        <td>
+          A JSON object holding data about a spcific genre, including name and
+          description. Example: <br /><br />
+          { "name": "Action",<br />
+          "description": "Should contain numerous scenes where action is
+          spectacular and usually destructive. Often includes non-stop motion,
+          high energy physical stunts, chases, battles, and destructive crises
+          (floods, explosions, natural disasters, fires, etc.) Note: if a movie
+          contains just one action scene (even if prolonged, i.e.
+          airplane-accident) it does not qualify. Subjective."<br />
           }
         </td>
       </tr>
       <tr>
-        <td>Return data about a director (bio, birth year, death year) by name</td>
+        <td>
+          Return data about a director (bio, birth year, death year) by name
+        </td>
         <td>/movies/director/[DirectorName]</td>
         <td>GET</td>
         <td>None</td>
-        <td>A JSON object holding data about a spcific director, including name, birth, death, and bio. Example: <br><br>
-          {
-            "name": "Francis Ford Coppola",<br>
-            "birth": "1939",<br>
-            "death": null,<br>
-            "bio": "Francis Ford Coppola is an American film director, producer, and screenwriter. He was a central figure in the New Hollywood filmmaking movement of the 1960s and 1970s."<br>
+        <td>
+          A JSON object holding data about a spcific director, including name,
+          birth, death, and bio. Example: <br /><br />
+          { "name": "Francis Ford Coppola",<br />
+          "birth": "1939",<br />
+          "death": null,<br />
+          "bio": "Francis Ford Coppola is an American film director, producer,
+          and screenwriter. He was a central figure in the New Hollywood
+          filmmaking movement of the 1960s and 1970s."<br />
           },
         </td>
       </tr>
@@ -67,50 +89,57 @@
         <td>Allow new users to register</td>
         <td>/users</td>
         <td>POST</td>
-        <td>A JSON object holding data about new user to add, structured like:<br><br>
-          {<br>
-            "Username": "AndersonTsai",<br>
-            "Password": "pass666",<br>
-            "Email": "AndersonTsai@example.com",<br>
-            "Birth_date": "1987-06-10"<br>
-        }
+        <td>
+          A JSON object holding data about new user to add, structured like:<br /><br />
+          {<br />
+          "Username": "AndersonTsai",<br />
+          "Password": "pass666",<br />
+          "Email": "AndersonTsai@example.com",<br />
+          "Birth_date": "1987-06-10"<br />
+          }
         </td>
         <td>
-          A JSON object holding data about the student that was added including an ID:<br><br>
-          {<br>
-            "Username": "AndersonTsai",<br>
-            "Password": "pass666",<br>
-            "Email": "AndersonTsai@example.com",<br>
-            "Birth_date": "1987-06-10T00:00:00.000Z",<br>
-            "FavMovies": [],<br>
-            "_id": "6630822b1894974d52d616fe",<br>
-            "__v": 0<br>
-        }
+          A JSON object holding data about the student that was added including
+          an ID:<br /><br />
+          {<br />
+          "Username": "AndersonTsai",<br />
+          "Password": "pass666",<br />
+          "Email": "AndersonTsai@example.com",<br />
+          "Birth_date": "1987-06-10T00:00:00.000Z",<br />
+          "FavMovies": [],<br />
+          "_id": "6630822b1894974d52d616fe",<br />
+          "__v": 0<br />
+          }
         </td>
       </tr>
       <tr>
-        <td>Allow users to update their user info (username, password, email, date of birth)</td>
+        <td>
+          Allow users to update their user info (username, password, email, date
+          of birth)
+        </td>
         <td>/users/[Username]</td>
         <td>PUT</td>
-        <td>A JSON object holding data about a existing user to update/post, structured like:<br><br>
-          {<br>
-            "Username": "AndersonTsai",<br>
-            "Password": "pass666",<br>
-            "Email": "AndersonTsai@example.com",<br>
-            "Birth_date": "1987-06-11"<br>
-        }
+        <td>
+          A JSON object holding data about a existing user to update/post,
+          structured like:<br /><br />
+          {<br />
+          "Username": "AndersonTsai",<br />
+          "Password": "pass666",<br />
+          "Email": "AndersonTsai@example.com",<br />
+          "Birth_date": "1987-06-11"<br />
+          }
         </td>
         <td>
-          A JSON show updated user's profile:<br><br>
-          {<br>
-            "_id": "6630822b1894974d52d616fe",<br>
-            "Username": "AndersonTsai",<br>
-            "Password": "pass666",<br>
-            "Email": "AndersonTsai@example.com",<br>
-            "Birth_date": "1987-06-11T00:00:00.000Z",<br>
-            "FavMovies": [],<br>
-            "__v": 0<br>
-        }
+          A JSON show updated user's profile:<br /><br />
+          {<br />
+          "_id": "6630822b1894974d52d616fe",<br />
+          "Username": "AndersonTsai",<br />
+          "Password": "pass666",<br />
+          "Email": "AndersonTsai@example.com",<br />
+          "Birth_date": "1987-06-11T00:00:00.000Z",<br />
+          "FavMovies": [],<br />
+          "__v": 0<br />
+          }
         </td>
       </tr>
       <tr>
@@ -118,18 +147,19 @@
         <td>/users/[userName]/movies/[movieID]</td>
         <td>POST</td>
         <td>None</td>
-        <td>Send back an updated JSON as below<br><br>
-          {<br>
-            "_id": "6630822b1894974d52d616fe",<br>
-            "Username": "AndersonTsai",<br>
-            "Password": "pass666",<br>
-            "Email": "AndersonTsai@example.com",<br>
-            "Birth_date": "1987-06-11T00:00:00.000Z",<br>
-            "FavMovies": [<br>
-                "66286858ded157b056117b81"<br>
-            ],<br>
-            "__v": 0<br>
-        }
+        <td>
+          Send back an updated JSON as below<br /><br />
+          {<br />
+          "_id": "6630822b1894974d52d616fe",<br />
+          "Username": "AndersonTsai",<br />
+          "Password": "pass666",<br />
+          "Email": "AndersonTsai@example.com",<br />
+          "Birth_date": "1987-06-11T00:00:00.000Z",<br />
+          "FavMovies": [<br />
+          "66286858ded157b056117b81"<br />
+          ],<br />
+          "__v": 0<br />
+          }
         </td>
       </tr>
       <tr>
@@ -137,16 +167,17 @@
         <td>/users/[username]/movies/[movieID]</td>
         <td>DELETE</td>
         <td>None</td>
-        <td>Send back an updated JSON as below<br><br>
-          {<br>
-            "_id": "6630822b1894974d52d616fe",<br>
-            "Username": "AndersonTsai",<br>
-            "Password": "pass666",<br>
-            "Email": "AndersonTsai@example.com",<br>
-            "Birth_date": "1987-06-11T00:00:00.000Z",<br>
-            "FavMovies": [],<br>
-            "__v": 0<br>
-        }
+        <td>
+          Send back an updated JSON as below<br /><br />
+          {<br />
+          "_id": "6630822b1894974d52d616fe",<br />
+          "Username": "AndersonTsai",<br />
+          "Password": "pass666",<br />
+          "Email": "AndersonTsai@example.com",<br />
+          "Birth_date": "1987-06-11T00:00:00.000Z",<br />
+          "FavMovies": [],<br />
+          "__v": 0<br />
+          }
         </td>
       </tr>
       <tr>
@@ -157,6 +188,5 @@
         <td>Send back a confirmation message</td>
       </tr>
     </table>
-
-</body>
+  </body>
 </html>
