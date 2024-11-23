@@ -14,9 +14,17 @@ const Models = require('./model.js');
 /**
  * @typedef {Object} Movie
  * @property {string} Title - The title of the movie.
+ * @property {string} Description - The description of the movie.
  * @property {Object} Genre - The genre of the movie.
  * @property {string} Genre.Name - The name of the genre.
+ * @property {string} Genre.Description - The description of the genre.
+ * @property {Object} Director - The director of the movie.
  * @property {string} Director.Name - The name of the director.
+ * @property {string} Director.Bio - The biography of the director.
+ * @property {string} Director.Birth - The birth year of the director.
+ * @property {string} Director.Death - The death year of the director (if applicable).
+ * @property {string} ImagePath - The image URL of the movie.
+ * @property {boolean} Featured - Indicates if the movie is featured.
  */
 const Movies = Models.Movie;
 
@@ -96,8 +104,9 @@ let auth = require('./auth')(app);
  * Displays a welcome message for the root endpoint.
  * @name welcomeMessage
  * @function
- * @param {Object} req - The request object.
- * @param {Object} res - The response object.
+ * @param {express.Request} req - The request object.
+ * @param {express.Response} res - The response object.
+ * @returns {void}
  */
 app.get('/', (req, res) => {
   res.send('Welcome! You are visiting a movie-lover place!');
@@ -105,20 +114,38 @@ app.get('/', (req, res) => {
 
 // Validation rules for user registration
 const userValidationRules = [
-  check('Username', 'Username is required').isLength({ min: 5 }),
-  check('Username', 'Username contains non alphanumeric characters').isAlphanumeric(),
+  check('Username', 'Username is required and must be at least 5 characters long.').isLength({ min: 5 }),
+  check('Username', 'Username contains non-alphanumeric characters - not allowed.').isAlphanumeric(),
   check('Password', 'Password is required').not().isEmpty(),
-  check('Email', 'Email is not valid').isEmail()
+  check('Email', 'Email does not appear to be valid').isEmail()
 ];
 
 /**
- * Creates a new user with the given details.
+ * Allow new users to register.
  * @name createUser
  * @function
  * @async
- * @param {Object} req - The request object.
- * @param {Object} res - The response object.
+ * @param {express.Request} req - The request object containing user registration details.
+ * @param {express.Response} res - The response object.
  * @returns {Object} The created user object.
+ * @example
+ * // Request body format:
+ * {
+ *   "Username": "AndersonTsai",
+ *   "Password": "pass666",
+ *   "Email": "AndersonTsai@example.com",
+ *   "Birth_date": "1987-06-10"
+ * }
+ * // Response body format:
+ * {
+ *   "Username": "AndersonTsai",
+ *   "Password": "hashedPassword",
+ *   "Email": "AndersonTsai@example.com",
+ *   "Birth_date": "1987-06-10T00:00:00.000Z",
+ *   "FavMovies": [],
+ *   "_id": "6630822b1894974d52d616fe",
+ *   "__v": 0
+ * }
  */
 app.post('/users', userValidationRules, async (req, res) => {
   let errors = validationResult(req);
@@ -150,8 +177,11 @@ app.post('/users', userValidationRules, async (req, res) => {
  * @name getUser
  * @function
  * @async
- * @param {string} Username - The username of the user to retrieve.
+ * @param {express.Request} req - The request object.
+ * @param {string} req.params.Username - The username of the user to retrieve.
+ * @param {express.Response} res - The response object.
  * @returns {Object} The user object if found.
+ * @requires passport
  */
 app.get('/users/:Username', passport.authenticate('jwt', { session: false }), async (req, res) => {
   console.log('Fetching user:', req.params.Username);
@@ -169,20 +199,40 @@ app.get('/users/:Username', passport.authenticate('jwt', { session: false }), as
 
 // Validation rules for updating user
 const updateUserValidationRules = [
-  check('Username', 'Username is required').isLength({ min: 5 }),
-  check('Username', 'Username contains non alphanumeric characters').isAlphanumeric(),
+  check('Username', 'Username is required and must be at least 5 characters long.').isLength({ min: 5 }),
+  check('Username', 'Username contains non-alphanumeric characters - not allowed.').isAlphanumeric(),
   check('Password', 'Password is required').not().isEmpty(),
-  check('Email', 'Email is not valid').isEmail()
+  check('Email', 'Email does not appear to be valid').isEmail()
 ];
 
 /**
- * Updates user information.
+ * Allow users to update their user info (username, password, email, date of birth).
  * @name updateUser
  * @function
  * @async
- * @param {string} Username - The username to update.
- * @param {Object} req.body - The user data to update.
+ * @param {express.Request} req - The request object containing updated user details.
+ * @param {string} req.params.Username - The username to update.
+ * @param {express.Response} res - The response object.
  * @returns {Object} The updated user object.
+ * @requires passport
+ * @example
+ * // Request body format:
+ * {
+ *   "Username": "AndersonTsai",
+ *   "Password": "newPass123",
+ *   "Email": "newemail@example.com",
+ *   "Birth_date": "1987-06-11"
+ * }
+ * // Response body format:
+ * {
+ *   "_id": "6630822b1894974d52d616fe",
+ *   "Username": "AndersonTsai",
+ *   "Password": "hashedNewPassword",
+ *   "Email": "newemail@example.com",
+ *   "Birth_date": "1987-06-11T00:00:00.000Z",
+ *   "FavMovies": [],
+ *   "__v": 0
+ * }
  */
 app.put('/users/:Username', passport.authenticate('jwt', { session: false }), updateUserValidationRules, async (req, res) => {
   let errors = validationResult(req);
@@ -214,12 +264,18 @@ app.put('/users/:Username', passport.authenticate('jwt', { session: false }), up
 });
 
 /**
- * Deletes a user by their username.
+ * Allow existing users to deregister.
  * @name deleteUser
  * @function
  * @async
- * @param {string} Username - The username to delete.
+ * @param {express.Request} req - The request object.
+ * @param {string} req.params.Username - The username to delete.
+ * @param {express.Response} res - The response object.
  * @returns {string} A confirmation message upon successful deletion.
+ * @requires passport
+ * @example
+ * // Response:
+ * "User AndersonTsai was deleted."
  */
 app.delete('/users/:Username', passport.authenticate('jwt', { session: false }), async (req, res) => {
   if (req.user.Username !== req.params.Username) {
@@ -239,13 +295,29 @@ app.delete('/users/:Username', passport.authenticate('jwt', { session: false }),
 });
 
 /**
- * Adds a movie to the user's favorite list.
+ * Allow users to add a movie to their list of favorites.
  * @name addFavoriteMovie
  * @function
  * @async
- * @param {string} Username - The username.
- * @param {string} movieID - The movie ID to add.
+ * @param {express.Request} req - The request object.
+ * @param {string} req.params.Username - The username.
+ * @param {string} req.params.movieID - The movie ID to add.
+ * @param {express.Response} res - The response object.
  * @returns {Object} The updated user object with the new favorite movie.
+ * @requires passport
+ * @example
+ * // Response body format:
+ * {
+ *   "_id": "6630822b1894974d52d616fe",
+ *   "Username": "AndersonTsai",
+ *   "Password": "hashedPassword",
+ *   "Email": "AndersonTsai@example.com",
+ *   "Birth_date": "1987-06-11T00:00:00.000Z",
+ *   "FavMovies": [
+ *     "66286858ded157b056117b81"
+ *   ],
+ *   "__v": 0
+ * }
  */
 app.post('/users/:Username/movies/:movieID', passport.authenticate('jwt', { session: false }), async (req, res) => {
   if (req.user.Username !== req.params.Username) {
@@ -265,13 +337,27 @@ app.post('/users/:Username/movies/:movieID', passport.authenticate('jwt', { sess
 });
 
 /**
- * Removes a movie from the user's favorite list.
+ * Allow users to remove a movie from their list of favorites.
  * @name removeFavoriteMovie
  * @function
  * @async
- * @param {string} Username - The username.
- * @param {string} movieID - The movie ID to remove.
+ * @param {express.Request} req - The request object.
+ * @param {string} req.params.Username - The username.
+ * @param {string} req.params.movieID - The movie ID to remove.
+ * @param {express.Response} res - The response object.
  * @returns {Object} The updated user object without the removed movie.
+ * @requires passport
+ * @example
+ * // Response body format:
+ * {
+ *   "_id": "6630822b1894974d52d616fe",
+ *   "Username": "AndersonTsai",
+ *   "Password": "hashedPassword",
+ *   "Email": "AndersonTsai@example.com",
+ *   "Birth_date": "1987-06-11T00:00:00.000Z",
+ *   "FavMovies": [],
+ *   "__v": 0
+ * }
  */
 app.delete('/users/:Username/movies/:movieID', passport.authenticate('jwt', { session: false }), async (req, res) => {
   if (req.user.Username !== req.params.Username) {
@@ -291,11 +377,27 @@ app.delete('/users/:Username/movies/:movieID', passport.authenticate('jwt', { se
 });
 
 /**
- * Retrieves a list of all movies in the database.
+ * Return a list of ALL movies to the user.
  * @name getAllMovies
  * @function
  * @async
- * @returns {Object[]} A list of movie objects.
+ * @param {express.Request} req - The request object.
+ * @param {express.Response} res - The response object.
+ * @returns {Object[]} A JSON object holding data about all the movies.
+ * @requires passport
+ * @example
+ * // Response body format:
+ * [
+ *   {
+ *     "Title": "The Grudge",
+ *     "Description": "A horror movie about a cursed house.",
+ *     "Genre": { "Name": "Horror", "Description": "Scary and thrilling movies." },
+ *     "Director": { "Name": "Takashi Shimizu", "Bio": "Japanese director", "Birth": "1968" },
+ *     "ImagePath": "https://example.com/grudge.jpg",
+ *     "Featured": true
+ *   },
+ *   // ... more movies
+ * ]
  */
 app.get('/movies', passport.authenticate('jwt', { session: false }), async (req, res) => {
   try {
@@ -308,12 +410,27 @@ app.get('/movies', passport.authenticate('jwt', { session: false }), async (req,
 });
 
 /**
- * Retrieves information about a specific movie by its title.
+ * Return data (description, genre, director, image URL, whether it's featured or not) about a single movie by title to the user.
  * @name getMovieByTitle
  * @function
  * @async
- * @param {string} title - The title of the movie.
- * @returns {Object} The movie object if found.
+ * @param {express.Request} req - The request object.
+ * @param {string} req.params.title - The title of the movie (URL-encoded).
+ * @param {express.Response} res - The response object.
+ * @returns {Object} A JSON object holding data about the specific movie.
+ * @requires passport
+ * @example
+ * // Request URL:
+ * /movies/The%20Grudge
+ * // Response body format:
+ * {
+ *   "Title": "The Grudge",
+ *   "Description": "A horror movie about a cursed house.",
+ *   "Genre": { "Name": "Horror", "Description": "Scary and thrilling movies." },
+ *   "Director": { "Name": "Takashi Shimizu", "Bio": "Japanese director", "Birth": "1968" },
+ *   "ImagePath": "https://example.com/grudge.jpg",
+ *   "Featured": true
+ * }
  */
 app.get('/movies/:title', passport.authenticate('jwt', { session: false }), async (req, res) => {
   const decodedTitle = decodeURIComponent(req.params.title);
@@ -331,12 +448,23 @@ app.get('/movies/:title', passport.authenticate('jwt', { session: false }), asyn
 });
 
 /**
- * Retrieves information about a specific genre by name.
+ * Return data about a genre (description) by name/title (e.g., “Thriller”).
  * @name getGenreByName
  * @function
  * @async
- * @param {string} genreName - The name of the genre.
- * @returns {Object} The genre object with its description.
+ * @param {express.Request} req - The request object.
+ * @param {string} req.params.genreName - The name of the genre (URL-encoded).
+ * @param {express.Response} res - The response object.
+ * @returns {Object} A JSON object holding data about a specific genre, including name and description.
+ * @requires passport
+ * @example
+ * // Request URL:
+ * /movies/genre/Action
+ * // Response body format:
+ * {
+ *   "Name": "Action",
+ *   "Description": "Should contain numerous scenes where action is spectacular and usually destructive..."
+ * }
  */
 app.get('/movies/genre/:genreName', passport.authenticate('jwt', { session: false }), async (req, res) => {
   try {
@@ -354,12 +482,25 @@ app.get('/movies/genre/:genreName', passport.authenticate('jwt', { session: fals
 });
 
 /**
- * Retrieves information about a specific director by name.
+ * Return data about a director (bio, birth year, death year) by name.
  * @name getDirectorByName
  * @function
  * @async
- * @param {string} directorName - The name of the director.
- * @returns {Object} The director object with details.
+ * @param {express.Request} req - The request object.
+ * @param {string} req.params.directorName - The name of the director (URL-encoded).
+ * @param {express.Response} res - The response object.
+ * @returns {Object} A JSON object holding data about a specific director, including name, bio, birth, and death.
+ * @requires passport
+ * @example
+ * // Request URL:
+ * /movies/director/Francis%20Ford%20Coppola
+ * // Response body format:
+ * {
+ *   "Name": "Francis Ford Coppola",
+ *   "Bio": "American film director, producer, and screenwriter...",
+ *   "Birth": "1939",
+ *   "Death": null
+ * }
  */
 app.get('/movies/director/:directorName', passport.authenticate('jwt', { session: false }), async (req, res) => {
   try {
